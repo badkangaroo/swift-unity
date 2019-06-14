@@ -12,9 +12,11 @@
 		164A97961F7B111F00D4DA8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164A97941F7B111F00D4DA8D /* Main.storyboard */; };
 		164A97981F7B111F00D4DA8D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 164A97971F7B111F00D4DA8D /* Assets.xcassets */; };
 		164A979B1F7B111F00D4DA8D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 164A97991F7B111F00D4DA8D /* LaunchScreen.storyboard */; };
-		16C412841F7B132D00E32745 /* Exports.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 16C412831F7B132C00E32745 /* Exports.xcconfig */; };
 		16C4157B1F7B16FB00E32745 /* rsync_exclude in Resources */ = {isa = PBXBuildFile; fileRef = 16C415781F7B16FA00E32745 /* rsync_exclude */; };
 		16C4157C1F7B16FB00E32745 /* UnityUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 16C415791F7B16FA00E32745 /* UnityUtils.mm */; };
+		840DEA0C22B4541200FE2746 /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = 840DEA0B22B4541200FE2746 /* Classes */; };
+		840DEA0D22B4571600FE2746 /* Exports.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 16C412831F7B132C00E32745 /* Exports.xcconfig */; };
+		84933A2A22B453DD00C778FD /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 84933A2922B453DD00C778FD /* Library */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,11 +28,13 @@
 		164A979A1F7B111F00D4DA8D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		164A979C1F7B111F00D4DA8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		16817A8E1FBCCEAD00FA0093 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		16C412831F7B132C00E32745 /* Exports.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Exports.xcconfig; sourceTree = "<group>"; };
+		16C412831F7B132C00E32745 /* Exports.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Exports.xcconfig; path = "../Temp/Unity-iPhone/Unity/Exports.xcconfig"; sourceTree = SOURCE_ROOT; };
 		16C412851F7B14B100E32745 /* Unity.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Unity.xcconfig; sourceTree = "<group>"; };
 		16C415781F7B16FA00E32745 /* rsync_exclude */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rsync_exclude; sourceTree = "<group>"; };
 		16C415791F7B16FA00E32745 /* UnityUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UnityUtils.mm; sourceTree = "<group>"; };
 		16C4157A1F7B16FA00E32745 /* UnityUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityUtils.h; sourceTree = "<group>"; };
+		840DEA0B22B4541200FE2746 /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Classes; path = ../../../Temp/Classes; sourceTree = "<group>"; };
+		84933A2922B453DD00C778FD /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Library; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +81,8 @@
 		16C412821F7B132C00E32745 /* Unity */ = {
 			isa = PBXGroup;
 			children = (
+				840DEA0B22B4541200FE2746 /* Classes */,
+				84933A2922B453DD00C778FD /* Library */,
 				16817A8E1FBCCEAD00FA0093 /* Bridging-Header.h */,
 				16C412831F7B132C00E32745 /* Exports.xcconfig */,
 				16C412851F7B14B100E32745 /* Unity.xcconfig */,
@@ -147,7 +153,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				16C412841F7B132D00E32745 /* Exports.xcconfig in Resources */,
+				840DEA0D22B4571600FE2746 /* Exports.xcconfig in Resources */,
+				84933A2A22B453DD00C778FD /* Library in Resources */,
+				840DEA0C22B4541200FE2746 /* Classes in Resources */,
 				164A979B1F7B111F00D4DA8D /* LaunchScreen.storyboard in Resources */,
 				16C4157B1F7B16FB00E32745 /* rsync_exclude in Resources */,
 				164A97981F7B111F00D4DA8D /* Assets.xcassets in Resources */,
@@ -169,7 +177,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Syncing code from $UNITY_IOS_EXPORT_PATH...\"\nrsync -rc --exclude-from=$PRODUCT_NAME/Unity/rsync_exclude --delete $UNITY_IOS_EXPORT_PATH/Classes/ $PRODUCT_NAME/Unity/Classes/\nrsync -rc --exclude-from=$PRODUCT_NAME/Unity/rsync_exclude --delete $UNITY_IOS_EXPORT_PATH/Libraries/ $PRODUCT_NAME/Unity/Libraries/\n";
+			shellScript = "echo \"Syncing code from $UNITY_IOS_EXPORT_PATH...\"\nrsync -rc --exclude-from=$PRODUCT_NAME/Unity/rsync_exclude --delete $UNITY_IOS_EXPORT_PATH/Classes/$PRODUCT_NAME/Unity/Classes/\nrsync -rc --exclude-from=$PRODUCT_NAME/Unity/rsync_exclude --delete $UNITY_IOS_EXPORT_PATH/Libraries/$PRODUCT_NAME/Unity/Libraries/\n";
 		};
 		16C4157F1F7B178800E32745 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
