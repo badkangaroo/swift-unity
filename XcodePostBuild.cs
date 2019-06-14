@@ -146,7 +146,7 @@ public class XcodePostBuild : EditorWindow
         {
             XcodeProjectPath = PathExt.Combine(
                 Path.GetDirectoryName(Environment.CurrentDirectory),
-                "Xcode-Project.xcodeproj");
+                "Unity-iPhone.xcodeproj");
         }
 
         // Instead of defining the xcode project root and name separately, have the user
@@ -157,7 +157,7 @@ public class XcodePostBuild : EditorWindow
         if (GUILayout.Button("Browse..."))
         {
             string userSelection = null;
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX)
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
                 userSelection = EditorUtility.OpenFilePanelWithFilters(
                     "Select Xcode project file",
