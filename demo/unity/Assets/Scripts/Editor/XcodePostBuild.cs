@@ -36,6 +36,10 @@ using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
 
 /// <summary>
+/// This has been modified to match the output from Unity 2017.2.5f1 which seems to have changed
+/// from jiulongw's version. or, he wasn't using macos, or it didn't actually work as expected.
+/// Hard to say...
+/// 
 /// Adding this post build script to Unity project enables Unity iOS build output to be embedded
 /// into existing Xcode Swift project.
 ///
@@ -45,8 +49,12 @@ using UnityEditor.iOS.Xcode;
 ///
 /// In order for this to work, necessary changes to the target Xcode Swift project are needed.
 /// Especially the 'AppDelegate.swift' should be modified to properly initialize Unity.
-/// See https://github.com/jiulongw/swift-unity for details.
+/// See https://github.com/jiulongw/swift-unity for details on the original.
+/// 
+/// See https://github.com/badkangaroo/swift-unity for updated version.
+/// 
 /// </summary>
+/// 
 public class XcodePostBuild : EditorWindow
 {
     /// <summary>
@@ -67,7 +75,7 @@ public class XcodePostBuild : EditorWindow
     /// <summary>
     /// Path to the Xcode project.
     /// </summary>
-    private string XcodeProjectPath;
+    private string XcodeProjectPath = null;
 
     /// <summary>
     /// Path to the root directory of Xcode project.
@@ -76,20 +84,32 @@ public class XcodePostBuild : EditorWindow
     /// Current directory is the root directory of this Unity project, i.e. the directory that contains the 'Assets' folder.
     /// Sample value: "../xcode"
     /// </summary>
-    private string XcodeProjectRoot { get { return Path.GetDirectoryName(XcodeProjectPath); } }
+	private string XcodeProjectRoot { 
+		get {
+			string p = Path.GetDirectoryName(XcodeProjectPath);
+			Debug.Log ("XcodeProjectRoot: " + p);
+			return p;
+		}
+	}
 
     /// <summary>
     /// Name of the Xcode project.
     /// This script looks for '${XcodeProjectName} + ".xcodeproj"' under '${XcodeProjectRoot}'.
     /// Sample value: "DemoApp"
     /// </summary>
-    private string XcodeProjectName { get { return Path.GetFileNameWithoutExtension(XcodeProjectPath); } }
+    private string XcodeProjectName {
+		get {
+			string p = Path.GetFileNameWithoutExtension(XcodeProjectPath);
+			Debug.Log ("XcodeProjectName: " + p);
+			return p; 
+		}
+	}
 
 
     /// <summary>
     /// The URL to the Git repository where this project originated.
     /// </summary>
-    private const string PROJECT_URL = "https://github.com/jiulongw/swift-unity";
+    private const string PROJECT_URL = "https://github.com/badkangaroo/swift-unity";
 
     /// <summary>
     /// The identifier added to touched file to avoid double edits when building to existing directory without
@@ -128,6 +148,7 @@ public class XcodePostBuild : EditorWindow
         }
 
         ShowRerunButton();
+
         EditorGUILayout.EndToggleGroup();
     }
 
@@ -144,9 +165,10 @@ public class XcodePostBuild : EditorWindow
 
         if (string.IsNullOrEmpty(XcodeProjectPath))
         {
-            XcodeProjectPath = PathExt.Combine(
-                Path.GetDirectoryName(Environment.CurrentDirectory),
-                "Xcode-Project.xcodeproj");
+			string currentDir = Environment.CurrentDirectory;
+			string dir = Path.GetDirectoryName (Environment.CurrentDirectory);
+			string xcodeProjName = "Unity-iPhone.xcodeproj";
+			XcodeProjectPath = currentDir + "/" + xcodeProjName;
         }
 
         // Instead of defining the xcode project root and name separately, have the user
@@ -156,8 +178,8 @@ public class XcodePostBuild : EditorWindow
 
         if (GUILayout.Button("Browse..."))
         {
-            string userSelection = null;
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX)
+			string userSelection = string.Empty;
+			if (Environment.OSVersion.Platform == PlatformID.Unix)
             {
                 userSelection = EditorUtility.OpenFilePanelWithFilters(
                     "Select Xcode project file",
@@ -174,7 +196,9 @@ public class XcodePostBuild : EditorWindow
 
             if (!string.IsNullOrEmpty(userSelection))
             {
+				Debug.Log ("userSelection" + userSelection);
                 xcodeProjectFile = PathExt.Abs2Rel(userSelection);
+				Debug.Log ("xcodeProjectFile: " + xcodeProjectFile);
             }
         }
 
